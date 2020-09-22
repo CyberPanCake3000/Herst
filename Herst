@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib as mplt
+from PyQt5.Qt import *
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+
+
+def Average(tau, val):
+    sum=0
+    for i in val:
+        sum += i
+    res = sum/tau
+    return res
+
+
+def SumAverage_Scope(tau, val):
+    sum=0
+    ave = Average(tau, val)
+    min=val[1]-ave
+    max=val[1]-ave
+    for i in val:
+        sum += i - ave
+        if sum<min: min = sum
+        if sum>max: max = sum
+    CKO(tau, sum)
+    return max-min
+
+
+def CKO(tau, sumaverage):
+    return np.power(np.power(sumaverage, 2)/(tau - 1), 0.5)
+
+
+class PlotWidget(QWidget):
+
+    functions = {
+
+    }
