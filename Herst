@@ -30,6 +30,19 @@ def SumAverage_Scope(tau, val):
 def CKO(tau, sumaverage):
     return np.power(np.power(sumaverage, 2)/(tau - 1), 0.5)
 
+# Метод наименьших квадратов
+def LS(x, y):
+    t=x.len()
+    medX=x.sum()
+    medY=y.sum()
+    medXY=x.sum()+y.sum()
+    medX2=np.power(x.sum(), 2)
+    a=(medXY*t-medX*medY)/(medX2*t-medX*medX)
+    b=(medY-a*medX)/t
+    return b
+    
+# test value LS([0.1, 0.2, -0.1, 0.5, 0.002], [0, 1, 2, 3, 4 ])
+
 
 class PlotWidget(QWidget):
 
