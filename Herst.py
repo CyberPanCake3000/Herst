@@ -42,13 +42,15 @@ def LS(x, y):
     return a
 
 
-def LinearFx(a, b, x):
-    return a+b*x
+def PowFx(a, b, x):
+    return a*np.power(x, b)
 
 x=[2.5, 3,3.3,4,4.4,5,5.5,6,6.5,7,7.5,8,8.5]
 y=[4.4,3.6,3,2.7,2.1,1.8,1.9,1.5,1.4,1.3,1.2,1.1,1.1]
-LS(x, y)
+a=LS(x, y)[0]
+b=LS(x, y)[1]
+plt.scatter(x, y, c="red")
 for i in range(20):
-    plt.plot(i, LinearFx(LS(x, y)[0], LS(x, y)[1], i))
+    plt.plot(i, LinearFx(a, b, i))
     # test value LS([0.1, 0.2, -0.1, 0.5, 0.002], [0, 1, 2, 3, 4 ])
 # test value from site mathhelp planet x=[2.5, 3,3.3,4,4.4,5,5.5,6,6.5,7,7.5,8,8.5] y=[4.4,3.6,3,2.7,2.1,1.8,1.9,1.5,1.4,1.3,1.2,1.1,1.1]
