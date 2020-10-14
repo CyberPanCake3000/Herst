@@ -42,24 +42,34 @@ def LinearFx(x):
     return a+b*x 
 
 
-y=[4.4,3.6,3,2.7,2.1,1.8,1.9,1.5,1.4,1.3,1.2,1.1,1.1]
-tau0=2
+f=open(r"C:\Users\student_02\Desktop\test.dat")
+fromfile=f.readlines()
+y=[float(i) for i in fromfile]
+tau=2
 delta_tau=2
 x=[i+1 for i in range(len(y))]
 a=LS(x, y)[0]
 b=LS(x, y)[1]
 
-ln=[LinearFx(c) for c in x]
-
-plt.figure(figsize=(5, 5))
-plt.subplot(2,1,1)
-plt.scatter(x, y, c="red")
-plt.plot(x, ln)
-plt.subplot(2,1,2)
+# plt.figure(figsize=(5, 5))
+# plt.subplot(2,1,1)
+# plt.scatter(x, y, c="red")
+# plt.plot(x, ln)
+# plt.subplot(2,1,2)
 nowtau=tau
+
+
+PointList=[]
+pList=[]
+newl=[]
+
 while nowtau<len(y):
     defR=Range(nowtau, y)
-    defS=SCO(nowtau, y)
-    plt.plot(math.log(x), math.log(defR/defS))
-    # test value LS([0.1, 0.2, -0.1, 0.5, 0.002], [0, 1, 2, 3, 4 ])
-# test value from site mathhelp planet x=[2.5, 3,3.3,4,4.4,5,5.5,6,6.5,7,7.5,8,8.5] y=[4.4,3.6,3,2.7,2.1,1.8,1.9,1.5,1.4,1.3,1.2,1.1,1.1]
+    defS=SCO(nowtau, Average(nowtau, y))
+    PointList.append(math.log(nowtau))
+    pList.append(math.log(defR / defS))
+    newl.append(LinearFx(math.log(nowtau)))
+    nowtau+=delta_tau
+
+plt.plot(pList, PointList)
+plt.plot(newl)
