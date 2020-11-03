@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+
 # np.seterr(divide='ignore', invalid='ignore')
 
 
@@ -65,19 +66,7 @@ def LS(x, y):
     return [a, b]
 
 
-def LSsq(x, y):
-    sX = sum(x)
-    sY = sum(y)
-    sXY = sum(x[i] * y[i] for i in range(len(x)))
-    sXX = sum(np.power(x, 2))
-    sYY = sum(np.power(y, 2))
-    n = len(x)
-    a = (sX * sY - n * sXY) / (np.power(sX, 2) - n * sXX)
-    b = (sX * sXY - sXX * sY) / (np.power(sX, 2) - n * sXX)
-    return [a, b]
-
-
-f = open(r"C:\Proba.txt")
+f = open(r"F:\Proba.txt")
 fromfile = f.readlines()
 tau = 1
 delta_tau = 1
@@ -95,4 +84,6 @@ for i in np.arange(0, len(y), delta_tau):
 
 # print(new_y)
 print(LS(x, new_y)[1])
-
+print(2-LS(x, new_y)[1]) #фрактальная размерность
+print(1/LS(x, new_y)[1]) #размерность Мандельброта
+print(np.power(2, 2*LS(x, new_y)[1]-1)-1) #корреляционное соотношение
