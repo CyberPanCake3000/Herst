@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from tkinter import *
 
 # np.seterr(divide='ignore', invalid='ignore')
 
@@ -66,7 +67,7 @@ def LS(x, y):
     return [a, b]
 
 
-f = open(r"F:\Proba.txt")
+f = open(r"C:\Users\student_02\Desktop\test.dat")
 fromfile = f.readlines()
 tau = 1
 delta_tau = 1
@@ -87,3 +88,10 @@ print(LS(x, new_y)[1])
 print(2-LS(x, new_y)[1]) #фрактальная размерность
 print(1/LS(x, new_y)[1]) #размерность Мандельброта
 print(np.power(2, 2*LS(x, new_y)[1]-1)-1) #корреляционное соотношение
+root = Tk()
+root.title("Показатель Херста")
+root.geometry("400x300+300+250")
+
+root.mainloop()
+
+
