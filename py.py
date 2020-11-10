@@ -36,8 +36,8 @@ def SCO(tau, val):
     # return np.power(np.power(sumaverage, 2)/(tau - 1), 0.5)
 
 
-def LinearFx(x):
-    return a+b*x
+def Fx(x):
+    return a*(b**x)
 
 
 # Метод наименьших квадратов
@@ -67,7 +67,7 @@ def LS(x, y):
     return [a, b]
 
 
-f = open(r"C:\Users\student_02\Desktop\test.dat")
+f = open(r"Proba.txt")
 fromfile = f.readlines()
 tau = 1
 delta_tau = 1
@@ -80,18 +80,24 @@ x=[]
 for i in np.arange(0, len(y), delta_tau):
     def_R=rrange(i+1, y)
     def_S=SCO(i+1, y)
-    new_y.append(math.log(def_R / def_S))
-    x.append(math.log(i+1))
+    new_y.append(def_R / def_S)
+    x.append(i+1)
 
 # print(new_y)
-print(LS(x, new_y)[1])
-print(2-LS(x, new_y)[1]) #фрактальная размерность
-print(1/LS(x, new_y)[1]) #размерность Мандельброта
-print(np.power(2, 2*LS(x, new_y)[1]-1)-1) #корреляционное соотношение
-root = Tk()
-root.title("Показатель Херста")
-root.geometry("400x300+300+250")
+a=LS(x, new_y)[0]
+b=LS(x, new_y)[1]
 
-root.mainloop()
+print(b)
+print(2-b) #фрактальная размерность
+print(1/b) #размерность Мандельброта
+print(np.power(2, 2*b-1)-1) #корреляционное соотношение
+plt.plot(x, y)
+plt.plot(x, Fx(x))
+# plt.plot(Fx(a, b, x), x)
+# root = Tk()
+# root.title("Показатель Херста")
+# root.geometry("400x300+300+250")
+
+# root.mainloop()
 
 
