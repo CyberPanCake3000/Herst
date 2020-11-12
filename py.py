@@ -48,26 +48,24 @@ def LS(x, y):
     sY = 1
     sXY = 1
     sXX = 1
-    n = len(x)
+    n = len(y)
     for i in x:
-        if(i>0): sX = math.log(i)
-
-    for i in x:
-        if (i > 0): sXX = np.power(math.log(i), 2)
+        sX += math.log(i)
+        sXX += np.power(math.log(i), 2)
 
     for i in y:
         if (i > 0):
-            sY = math.log(i)
+            sY += math.log(i)
 
     for i in range(len(x)):
-        if (x[i]>0 and y[i] > 0): sXY = math.log(x[i]) * math.log(y[i])
+        if (y[i] > 0): sXY += math.log(x[i]) * math.log(y[i])
 
     b = (n * sXY - sX * sY) / (n * sXX - np.power(sX, 2))
     a = math.exp((sY - b * sX) / n)
     return [a, b]
 
 
-f = open(r"Proba.txt")
+f = open(r"test2.txt")
 fromfile = f.readlines()
 tau = 1
 delta_tau = 1
@@ -76,23 +74,20 @@ y = [float(i) for i in fromfile]
 new_y=[]
 # x=[i+1 for i in range(len(y))]
 x=[]
-
 for i in np.arange(0, len(y), delta_tau):
     def_R=rrange(i+1, y)
     def_S=SCO(i+1, y)
     new_y.append(def_R / def_S)
     x.append(i+1)
 
-# print(new_y)
 a=LS(x, new_y)[0]
 b=LS(x, new_y)[1]
-
-print(b)
-print(2-b) #фрактальная размерность
-print(1/b) #размерность Мандельброта
+print(round(b, 4))
+print(round(2-b, 4)) #фрактальная размерность
+print(round((1/b), 4))#размерность Мандельброта
 print(np.power(2, 2*b-1)-1) #корреляционное соотношение
-plt.plot(x, y)
-plt.plot(x, Fx(x))
+# plt.plot(y)
+plt.plot(Fx(x))
 # plt.plot(Fx(a, b, x), x)
 # root = Tk()
 # root.title("Показатель Херста")
