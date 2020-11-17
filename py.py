@@ -1,23 +1,21 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from tkinter import *
-
+import time
 # np.seterr(divide='ignore', invalid='ignore')
 
 
 def average(tau, val):
     # Вычисление среднего значения для текущего tau
-    s = sum(val)
-    return (s/tau)
+    return (sum(val)/tau)
 
 
 def rrange(tau, val):
     # Вычисление размаха для текущего tau
     sum=0
     ave = average(tau, val)
-    min=val[1]-ave
-    max=val[1]-ave
+    min=val[0]-ave
+    max=val[0]-ave
     for i in val:
         sum += i - ave
         if sum<min: min = sum
@@ -27,11 +25,13 @@ def rrange(tau, val):
 
 def SCO(tau, val):
     res = 0
-    medium = average(tau, val)
+    medium = sum(val)/tau
     s = 0
     for i in val:
-        s+=np.power(i-medium, 2)
-    res=np.power(s / (tau - 0.99999999), 0.5)
+        # s+=np.power(i-medium, 2)
+        s+=(i - medium)**2
+
+    res=(s / (tau - 0.99999999))**0.5
     return res
     # return np.power(np.power(sumaverage, 2)/(tau - 1), 0.5)
 
@@ -51,8 +51,8 @@ def LS(x, y):
     n = len(y)
     for i in x:
         sX += math.log(i)
-        sXX += np.power(math.log(i), 2)
-
+        # sXX += np.power(math.log(i), 2)
+        sXX += math.log(i)**2
     for i in y:
         if (i > 0):
             sY += math.log(i)
@@ -60,39 +60,44 @@ def LS(x, y):
     for i in range(len(x)):
         if (y[i] > 0): sXY += math.log(x[i]) * math.log(y[i])
 
-    b = (n * sXY - sX * sY) / (n * sXX - np.power(sX, 2))
+    b = (n * sXY - sX * sY) / (n * sXX - sX**2)
+    # np.power(sX, 2)
     a = math.exp((sY - b * sX) / n)
     return [a, b]
 
 
-f = open(r"test2.txt")
+f = open(r"F:\test.txt")
 fromfile = f.readlines()
+f.close()
 tau = 1
 delta_tau = 1
 
-y = [float(i) for i in fromfile]
+y = np.array([float(i) for i in fromfile])
+
+# plt.plot(y)
 new_y=[]
 # x=[i+1 for i in range(len(y))]
 x=[]
-for i in np.arange(0, len(y), delta_tau):
-    def_R=rrange(i+1, y)
-    def_S=SCO(i+1, y)
+t=time.time()
+print(t)
+for i in np.arange(1, len(y), delta_tau):
+    def_R=rrange(i+1, y[:i+1])
+    # print(def_R)
+    def_S=SCO(i+1, y[:i+1])
+    # print(def_S)
     new_y.append(def_R / def_S)
     x.append(i+1)
-
-a=LS(x, new_y)[0]
-b=LS(x, new_y)[1]
+print('lol', time.time()-t)
+new_new_y=np.array(new_y)
+new_x=np.array(x)
+a=LS(new_x, new_new_y)[0]
+b=LS(new_x, new_new_y)[1]
 print(round(b, 4))
 print(round(2-b, 4)) #фрактальная размерность
 print(round((1/b), 4))#размерность Мандельброта
 print(np.power(2, 2*b-1)-1) #корреляционное соотношение
-# plt.plot(y)
-plt.plot(Fx(x))
-# plt.plot(Fx(a, b, x), x)
-# root = Tk()
-# root.title("Показатель Херста")
-# root.geometry("400x300+300+250")
+plt.plot(x, Fx(x))
+# plt.show()
 
-# root.mainloop()
 
 
