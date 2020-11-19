@@ -30,14 +30,13 @@ def SCO(tau, val):
     for i in val:
         # s+=np.power(i-medium, 2)
         s+=(i - medium)**2
-
     res=(s / (tau - 0.99999999))**0.5
     return res
     # return np.power(np.power(sumaverage, 2)/(tau - 1), 0.5)
 
 
 def Fx(x):
-    return a*(b**x)
+    return a*(x**b)
 
 
 # Метод наименьших квадратов
@@ -67,7 +66,7 @@ def LS(x, y):
     return [a, b]
 
 
-f = open(r"E:\test2.txt")
+f = open(r"F:\Proba.txt")
 fromfile = f.readlines()
 f.close()
 tau = 1
@@ -91,7 +90,6 @@ for i in np.arange(1, len(y), delta_tau):
 # print('lol', time.time()-t)
 
 new_new_y=np.array(new_y)
-print(new_new_y[0], x[0])
 # new_x=np.array(x)
 a=LS(x, new_new_y)[0]
 b=LS(x, new_new_y)[1]
@@ -102,9 +100,8 @@ print(np.power(2, 2*b-1)-1) #корреляционное соотношение
 res_g=[]
 for i in x:
     res_g.append(Fx(i))
-
-plt.plot(res_g)
+# plt.ylim([0, res_g[0]])
+plt.plot(x, res_g)
+plt.plot(y)
 plt.show()
-
-
 
