@@ -56,17 +56,6 @@ class RS_analysis:
         sXY = 0
         sXX = 0
         n = len(y)
-        # for i in x:
-        #     sX += math.log(i)
-        #     sXX += math.log(i)**2
-        # for i in y:
-        #     if (i > 0):
-        #         sY += math.log(i)
-        #
-        # for i in range(len(y)):
-        #     if (y[i] > 0):
-        #         sXY += math.log(x[i]) * math.log(y[i])
-        # print(x, sXY, sX, sY, sXX)
 
         for i in range(len(x)):
             sX += math.log(x[i])
