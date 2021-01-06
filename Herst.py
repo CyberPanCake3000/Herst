@@ -2,12 +2,12 @@ import numpy as np
 import math
 from PyQt5.QtWidgets import QAction, QApplication, QFileDialog, QMessageBox
 from PyQt5 import QtWidgets, QtGui
-import Herst_gui
+import Herst_gui #file with gui
 import matplotlib
 matplotlib.use('QT5Agg')
 import sys
 import pyqtgraph as pg
-from openpyxl import load_workbook
+from openpyxl import load_workbook # for import data from Excel
 import openpyxl
 
 class RS_analysis:
@@ -49,6 +49,7 @@ class RS_analysis:
 
 
     # Метод наименьших квадратов
+    # least square method
 
     def LS(self, x, y):
         sX=0
@@ -84,7 +85,8 @@ class RS_analysis:
         self.b = self.LS(self.x, self.new_y)[1]
         for i in self.x:
             self.res_g.append(self.Fx(i))
-
+            
+    #tuple for import result in txt/excel file
     def doTuple(self):
         result_tuple = []
         result_tuple.append(['a', self.a])
